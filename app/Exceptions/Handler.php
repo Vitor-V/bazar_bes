@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,21 +64,22 @@ class Handler extends ExceptionHandler
      *
      * @param \Illuminate\Http\Request $request
      * @param AuthenticationException $exception
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            $message = $this->translate('unauthenticated');
-            return $this->renderJson(['message' => $message], 401);
-        }
-
-        return redirect()->guest('login');
+        $message = $this->translate('unauthenticated');
+        return $this->renderJson(['message' => $message], 401);
     }
 
     public function render($request, Throwable $exception)
     {
         switch (true) {
+
+            case $exception instanceof AuthenticationException:
+                $params['message'] = $this->translate('unauthenticated');
+                $statusCode = Response::HTTP_UNAUTHORIZED;
+                break;
 
             case $exception instanceof ValidationException:
                 $params['message'] = $this->translate('invalid');

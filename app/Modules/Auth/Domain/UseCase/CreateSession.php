@@ -8,15 +8,19 @@ use App\Modules\Auth\Domain\Model\SessionModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class CreateSession
 {
-    public function execute(User $user)
+    public function execute(User $user, Request $request)
     {
-        Session::put('user', $user);
-        Session::put('token', $this->createAndStoreToken($user, request()->ip()));
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
 
-        return new SessionModel(Session::get('token'), Session::get('user'));
+        $token = $request->user()->createToken('api_token');
+
+        return new SessionModel($token->plainTextToken, $user);
     }
 
     /**

@@ -19,6 +19,6 @@ class LoginUseCase
 
         $session = new CreateSession();
 
-        return $session->execute($user);
+        return $session->execute($user, $request);
     }
 }

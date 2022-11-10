@@ -1,6 +1,13 @@
 <?php
 
 return [
+
+    'store' => [
+        'store' => [
+            'success' => 'Loja cadastrada com sucesso.'
+        ]
+    ],
+
     'http' => [
         'controllers' => [
             'api' => [

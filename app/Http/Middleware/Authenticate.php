@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Request;
 
 class Authenticate extends Middleware
 {
@@ -14,8 +16,25 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
-        }
+        $message = $this->translate('unauthenticated');
+        return $this->renderJson(['message' => $message], 401);
+    }
+
+    protected function renderJson($json, $status)
+    {
+        $request = Request::instance();
+
+        $json['meta'] = [
+            'now' => Carbon::now()->format('Y-m-d H:i'),
+            'ip' => $request->ip(),
+        ];
+
+        return response()->json($json, $status)
+            ->header('Content-type', 'application/json; charset=UTF-8');
+    }
+
+    protected function translate($message)
+    {
+        return trans("app.exceptions.handler.$message");
     }
 }

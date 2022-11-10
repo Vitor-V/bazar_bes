@@ -28,8 +28,6 @@ Route::group([
 );
 
 
-
-
 Route::group([
     'prefix' => 'user'
 ],
@@ -38,5 +36,13 @@ Route::group([
             ->name('user.store');
     }
 );
+
+Route::middleware('auth:sanctum')
+    ->group(
+        function () {
+            Route::apiResource('store', \App\Modules\Store\Presentation\Controllers\StoresController::class);
+        }
+    );
+
 
 
