@@ -11,6 +11,8 @@ class Store extends Model
         'name',
         'email',
         'phone',
+
+        'zip_code',
         'address',
         'address_number',
         'address_district',

@@ -6,13 +6,14 @@ use App\Modules\Auth\Contract\TokenGenerator;
 use App\Modules\Auth\Data\Dao\User;
 use App\Modules\Auth\Domain\Model\SessionModel;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class CreateSession
 {
-    public function execute(User $user, Request $request)
+    public function execute(Authenticatable $user, Request $request)
     {
         $request->setUserResolver(function () use ($user) {
             return $user;

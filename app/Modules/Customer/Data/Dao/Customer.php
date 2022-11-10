@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Modules\Auth\Data\Dao;
+namespace App\Modules\Customer\Data\Dao;
+
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class User extends Authenticatable
+class Customer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -16,6 +17,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cpf',
+
+        'zip_code',
+        'address',
+        'address_number',
+        'address_district',
+        'city',
+        'state',
     ];
 
     protected $hidden = [
@@ -37,4 +46,7 @@ class User extends Authenticatable
     {
         return $date->format('H:i d-m-Y');
     }
+
+
+
 }

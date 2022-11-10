@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\Auth\Presentation\Controllers\SessionController;
+use App\Modules\Store\Presentation\Controllers\StoresController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,36 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::apiResource('session', SessionController::class)->only('store');
+//Route::apiResource('user', UsersController::class)->only('store');
 
 
-Route::group([
-    'prefix' => 'session'
-],
-    function () {
-        Route::post('create', [\App\Modules\Auth\Presentation\Controllers\SessionController::class, 'store'])
-            ->name('session.store');
-    }
-);
-
-
-Route::group([
-    'prefix' => 'user'
-],
-    function () {
-        Route::post('create', [\App\Modules\Auth\Presentation\Controllers\UsersController::class, 'store'])
-            ->name('user.store');
-    }
-);
-
+// Rotas autenticadas
 Route::middleware('auth:sanctum')
-    ->group(
-        function () {
-            Route::apiResource('store', \App\Modules\Store\Presentation\Controllers\StoresController::class);
-        }
-    );
+    ->group(function () {
+        Route::apiResource('store', StoresController::class)->only('store');
+    });
+
 
 
 

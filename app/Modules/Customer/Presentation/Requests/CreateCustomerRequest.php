@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Modules\Store\Presentation\Requests;
+namespace App\Modules\Customer\Presentation\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateStoreRequest extends FormRequest
+class CreateCustomerRequest extends FormRequest
 {
     public function rules()
     {
         return [
             'name' => 'required|min:5',
-            'email' => 'required|email|unique:stores,email',
-            'phone' => 'sometimes|string',
+            'email' => 'required|email|unique:customers,email',
+            'cpf' => 'required',
+            'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required',
 
             'zip_code' => 'sometimes|string',
             'address' => 'sometimes|string',
