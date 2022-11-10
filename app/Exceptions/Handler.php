@@ -2,7 +2,17 @@
 
 namespace App\Exceptions;
 
+use App\Modules\Auth\Domain\Exceptions\LoginException;
+use Carbon\Carbon;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -22,7 +32,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+
     ];
 
     /**
@@ -46,5 +56,100 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param AuthenticationException $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            $message = $this->translate('unauthenticated');
+            return $this->renderJson(['message' => $message], 401);
+        }
+
+        return redirect()->guest('login');
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        switch (true) {
+
+            case $exception instanceof ValidationException:
+                $params['message'] = $this->translate('invalid');
+                $params['errors'] = $exception->errors();
+                $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+                break;
+
+            case $exception instanceof LoginException:
+                $params['message'] = trans('auth.failed');
+                $statusCode = Response::HTTP_UNAUTHORIZED;
+                break;
+
+
+            case $exception instanceof NotFoundHttpException:
+            case $exception instanceof MethodNotAllowedHttpException:
+                $params = ['message' => $this->translate('action_not_found')];
+                $statusCode = 404;
+                break;
+
+            // Eloquent exceptions
+            case $exception instanceof ModelNotFoundException:
+                $params = ['message' => $this->translate('record_not_found')];
+                $statusCode = 404;
+                break;
+            case $exception instanceof FileNotFoundException:
+                $params = ['message' => $this->translate('file_not_found')];
+                $statusCode = 404;
+                break;
+
+            default:
+                $message = $this->translate('internal_server_error');
+
+                $params = ['message' => $message];
+                if (env('APP_DEBUG')) {
+                    $params['exception'] = [
+                        'class' => get_class($exception),
+                        'message' => $exception->getMessage(),
+                        'file' => $exception->getFile(),
+                        'line' => $exception->getLine(),
+                        'backtrace' => $exception->getTrace(),
+                    ];
+
+                    $params['request'] = [
+                        'url' => $request->url(),
+                        'method' => $request->method(),
+                        'headers' => $request->headers->all(),
+                        'params' => $request->all(),
+                    ];
+                }
+
+                $statusCode = 500;
+                break;
+        }
+
+        return $this->renderJson($params, $statusCode);
+    }
+
+    protected function renderJson($json, $status)
+    {
+        $request = Request::instance();
+
+        $json['meta'] = [
+            'now' => Carbon::now()->format('Y-m-d H:i'),
+            'ip' => $request->ip(),
+        ];
+
+        return response()->json($json, $status)
+            ->header('Content-type', 'application/json; charset=UTF-8');
+    }
+
+    protected function translate($message)
+    {
+        return trans("app.exceptions.handler.$message");
     }
 }
