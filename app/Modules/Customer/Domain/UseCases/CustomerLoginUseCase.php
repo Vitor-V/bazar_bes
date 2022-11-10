@@ -11,11 +11,11 @@ class CustomerLoginUseCase
 {
     public function execute(LoginRequest $request)
     {
-        $isAuth = Auth::guard('customer_api')->attempt($request->validated());
+        $isAuth = Auth::guard('customer')->attempt($request->validated());
         if (!$isAuth) {
             throw new LoginException();
         }
-        $user = Auth::guard('customer_api')->user();
+        $user = Auth::guard('customer')->user();
 
         $session = new CreateSession();
 

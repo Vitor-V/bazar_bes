@@ -11,11 +11,11 @@ class LoginUseCase
 {
     public function execute(LoginRequest $request)
     {
-        $isAuth = Auth::attempt($request->validated());
+        $isAuth = Auth::guard('user')->attempt($request->validated());
         if (!$isAuth) {
             throw new LoginException();
         }
-        $user = Auth::user();
+        $user = Auth::guard('user')->user();
 
         $session = new CreateSession();
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Auth\Presentation\Controllers\SessionController;
+use App\Modules\Auth\Presentation\Controllers\UsersController;
 use App\Modules\Store\Presentation\Controllers\StoresController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('session', SessionController::class)->only('store');
-//Route::apiResource('user', UsersController::class)->only('store');
+Route::apiResource('user', UsersController::class)->only('store');
 
 
 // Rotas autenticadas
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'abilities:user'])
     ->group(function () {
         Route::apiResource('store', StoresController::class)->only('store');
     });

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -77,6 +78,7 @@ class Handler extends ExceptionHandler
         switch (true) {
 
             case $exception instanceof AuthenticationException:
+            case $exception instanceof MissingAbilityException:
                 $params['message'] = $this->translate('unauthenticated');
                 $statusCode = Response::HTTP_UNAUTHORIZED;
                 break;

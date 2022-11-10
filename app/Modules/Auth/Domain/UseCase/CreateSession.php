@@ -5,6 +5,7 @@ namespace App\Modules\Auth\Domain\UseCase;
 use App\Modules\Auth\Contract\TokenGenerator;
 use App\Modules\Auth\Data\Dao\User;
 use App\Modules\Auth\Domain\Model\SessionModel;
+use App\Modules\Customer\Data\Dao\Customer;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Crypt;
@@ -19,7 +20,17 @@ class CreateSession
             return $user;
         });
 
-        $token = $request->user()->createToken('api_token');
+        switch ($user) {
+            case $user instanceof User;
+                $userType = 'user';
+                break;
+
+            case $user instanceof Customer;
+                $userType = 'customer';
+                break;
+        }
+
+        $token = $request->user()->createToken('api_token', [$userType]);
 
         return new SessionModel($token->plainTextToken, $user);
     }
