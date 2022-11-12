@@ -11,4 +11,10 @@ class UserStore extends Model
     {
         return $date->format('H:i d-m-Y');
     }
+
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

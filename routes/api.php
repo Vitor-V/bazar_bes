@@ -2,6 +2,7 @@
 
 use App\Modules\Auth\Presentation\Controllers\SessionController;
 use App\Modules\Auth\Presentation\Controllers\UsersController;
+use App\Modules\Product\Presentation\Controllers\ProductsController;
 use App\Modules\Store\Presentation\Controllers\StoresController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,12 @@ Route::apiResource('session', SessionController::class)->only('store');
 Route::apiResource('user', UsersController::class)->only('store');
 
 
-// Rotas autenticadas
+// Usuário autenticado
 Route::middleware(['auth:sanctum', 'abilities:user'])
     ->group(function () {
         Route::apiResource('store', StoresController::class)->only('store');
+        Route::apiResource('product', ProductsController::class)->only('store');
+
     });
 
 

@@ -8,6 +8,18 @@ return [
         ]
     ],
 
+    'product' => [
+        'store' => [
+            'success' => 'Produto cadastrado com sucesso.'
+        ]
+    ],
+
+    'order' => [
+        'store' => [
+            'success' => 'Pedido processado com sucesso.'
+        ]
+    ],
+
     'http' => [
         'controllers' => [
             'api' => [
