@@ -96,6 +96,9 @@ class Handler extends ExceptionHandler
 
 
             case $exception instanceof NotFoundHttpException:
+                return response()->make(view('errors.404'), 404);
+                break;
+
             case $exception instanceof MethodNotAllowedHttpException:
                 $params = ['message' => $this->translate('action_not_found')];
                 $statusCode = 404;
