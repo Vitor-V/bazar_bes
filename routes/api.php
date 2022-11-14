@@ -33,5 +33,8 @@ Route::get('foo', function () {
     return 'Hello World';
 });
 
+Route::post('foo', function () {
+    return 'Hello World';
+});
 
 
