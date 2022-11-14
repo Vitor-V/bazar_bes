@@ -29,6 +29,9 @@ Route::middleware(['auth:sanctum', 'abilities:user'])
 
     });
 
+Route::get('foo', function () {
+    return 'Hello World';
+});
 
 
 
