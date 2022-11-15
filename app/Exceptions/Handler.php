@@ -87,7 +87,7 @@ class Handler extends ExceptionHandler
             case $exception instanceof ValidationException:
                 $params['message'] = $this->translate('invalid');
                 $params['errors'] = $exception->errors();
-                $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+                $statusCode = Response::HTTP_OK; // errado mas pediram pra ser assim
                 break;
 
             case $exception instanceof LoginException:
