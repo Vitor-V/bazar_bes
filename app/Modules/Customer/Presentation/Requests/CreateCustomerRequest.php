@@ -11,7 +11,7 @@ class CreateCustomerRequest extends FormRequest
         return [
             'name' => 'required|min:5',
             'email' => 'required|email|unique:customers,email',
-            'cpf' => 'required',
+            'cpf' => 'required|unique:customers,cpf',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => 'required',
 
