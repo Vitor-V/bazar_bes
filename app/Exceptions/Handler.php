@@ -75,6 +75,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        info($exception->getMessage());
         switch (true) {
 
             case $exception instanceof AuthenticationException:

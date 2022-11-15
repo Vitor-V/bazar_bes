@@ -34,6 +34,7 @@ Route::get('foo', function () {
 });
 
 Route::post('foo', function () {
+    info('chegou no post');
     return 'Hello World';
 });
 
