@@ -11,11 +11,15 @@ Route::post('session', [CustomersController::class, 'login']);
 
 Route::apiResource('customer', CustomersController::class)->only('store');
 
+Route::get('product', [ProductsController::class, 'index'])->name('product.customer_index');
+
+
 // Cliente autenticado
 Route::middleware(['auth:sanctum', 'abilities:customer'])
     ->group(function () {
         Route::apiResource('order', OrdersController::class)->only('store');
 
-        Route::apiResource('product', ProductsController::class)->only('index');
     });
+
+
 

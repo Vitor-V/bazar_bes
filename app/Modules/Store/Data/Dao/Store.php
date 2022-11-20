@@ -4,9 +4,12 @@ namespace App\Modules\Store\Data\Dao;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
         'email',

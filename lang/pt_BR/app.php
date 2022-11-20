@@ -2,15 +2,48 @@
 
 return [
 
+    'session' => [
+        'store' => [
+            'success' => 'Logado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Você foi deslogado.',
+        ]
+    ],
+
+    'user' => [
+        'store' => [
+            'success' => 'Usuário cadastrado com sucesso.'
+        ],
+        'update' => [
+            'success' => 'Usuário atualizado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Usuário removido com sucesso.',
+        ]
+    ],
+
     'store' => [
         'store' => [
             'success' => 'Loja cadastrada com sucesso.'
+        ],
+        'update' => [
+            'success' => 'Loja atualizada com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Loja removida com sucesso.',
         ]
     ],
 
     'product' => [
         'store' => [
             'success' => 'Produto cadastrado com sucesso.'
+        ],
+        'update' => [
+            'success' => 'Produto atualizado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Produto removido com sucesso.',
         ]
     ],
 

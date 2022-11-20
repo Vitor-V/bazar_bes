@@ -5,9 +5,12 @@ namespace App\Modules\Product\Data\Dao;
 use App\Modules\Product\Data\Contract\ProductType;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
         'description',
