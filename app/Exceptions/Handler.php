@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Modules\Auth\Domain\Exceptions\LoginException;
+use App\Modules\Product\Domain\Exceptions\AnyStoreException;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -95,6 +96,10 @@ class Handler extends ExceptionHandler
                 $statusCode = Response::HTTP_UNAUTHORIZED;
                 break;
 
+            case $exception instanceof AnyStoreException:
+                $params['message'] = $exception->getMessage();
+                $statusCode = Response::HTTP_OK;
+                break;
 
             case $exception instanceof NotFoundHttpException:
                 return response()->make(view('errors.404'), 404);

@@ -15,7 +15,6 @@ use App\Modules\Store\Presentation\UpdateStore\UpdateStoreRequest;
 use App\Modules\Store\Presentation\UpdateStore\UpdateStoreResource;
 use App\Modules\Store\Presentation\UpdateStore\UpdateStoreUseCase;
 use Exception;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -36,9 +35,9 @@ class StoresController extends Controller
         }
     }
 
-    public function index(ListStoreUseCase $useCase, Request $request): AnonymousResourceCollection
+    public function index(ListStoreUseCase $useCase, Request $request): StoreResource
     {
-        return StoreResource::collection($useCase->execute($request));
+        return StoreResource::make($useCase->execute($request));
     }
 
     public function show(Request $request, int $id): StoreResource

@@ -9,11 +9,8 @@ class ListStoreUseCase
 {
     public function execute(Request $request)
     {
-        $stores = Store::query()
-            ->join('user_stores', 'user_stores.store_id', '=', 'stores.id')
-            ->where('user_stores.user_id', $request->user()->id)
-            ->get();
+        $store = $request->user()->store;
 
-        return $stores;
+        return $store;
     }
 }

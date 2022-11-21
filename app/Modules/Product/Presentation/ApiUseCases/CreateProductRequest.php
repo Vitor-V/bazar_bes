@@ -14,7 +14,6 @@ class CreateProductRequest extends FormRequest
             'description' => 'required|string|min:5',
             'type' => 'required|integer',
             'value' => 'required|numeric',
-            'store_id' => 'required|exists:stores,id'
         ];
     }
 }

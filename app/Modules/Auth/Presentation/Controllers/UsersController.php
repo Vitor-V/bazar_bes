@@ -3,9 +3,9 @@
 namespace App\Modules\Auth\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Auth\Domain\Resources\CreateUserResource;
 use App\Modules\Auth\Domain\UseCase\CreateUser;
 use App\Modules\Auth\Presentation\Requests\CreateUserRequest;
-use App\Modules\Auth\Presentation\Resources\SessionResource;
 use App\Modules\Auth\Presentation\Resources\UserResource;
 use App\Modules\Auth\Presentation\UpdateUser\UpdateUserRequest;
 use App\Modules\Auth\Presentation\UpdateUser\UpdateUserResource;
@@ -23,7 +23,7 @@ class UsersController extends Controller
     {
         try {
             return DB::transaction(function () use ($useCase, $request) {
-                return SessionResource::make($useCase->execute($request));
+                return CreateUserResource::make($useCase->execute($request));
             });
         } catch (Exception $e) {
          DB::rollBack();

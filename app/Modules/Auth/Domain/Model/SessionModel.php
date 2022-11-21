@@ -11,6 +11,7 @@ class SessionModel
 
     public function __construct(?string $token = null, ?Authenticatable $user = null)
     {
+        info(json_encode($user));
         $this->token = $token;
         $this->user = $user;
     }
