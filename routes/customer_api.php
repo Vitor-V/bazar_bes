@@ -18,7 +18,7 @@ Route::get('product', [ProductsController::class, 'index'])->name('product.custo
 // Cliente autenticado
 Route::middleware(['auth:sanctum', 'abilities:customer'])
     ->group(function () {
-        Route::apiResource('order', OrdersController::class)->only('store');
+        Route::apiResource('order', OrdersController::class)->only('store', 'index');
 
         Route::post('comment/like', [CommentsController::class,'like']);
         Route::post('comment/unlike', [CommentsController::class,'unlike']);

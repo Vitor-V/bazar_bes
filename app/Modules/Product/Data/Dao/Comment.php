@@ -14,6 +14,11 @@ class Comment extends Model
         'content',
     ];
 
+    protected $appends = [
+        'likes'
+    ];
+
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('H:i d-m-Y');
