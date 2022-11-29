@@ -9,7 +9,9 @@ class ListProductsUseCase
 {
     public function execute(Request $request)
     {
-        $products = Product::query()->get();
+        $products = Product::query()
+            ->with(['comments', 'comments.likes'])
+            ->get();
 
         return $products;
     }

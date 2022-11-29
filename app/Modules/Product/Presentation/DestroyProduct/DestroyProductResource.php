@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class DestroyProductResource extends JsonResource
 {
+    public static $wrap = '';
+
     public function toArray($request)
     {
         return [

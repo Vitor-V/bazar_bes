@@ -2,24 +2,16 @@
 
 namespace App\Modules\Product\Data\Dao;
 
-use App\Modules\Product\Data\Contract\ProductType;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class Comment extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'description',
-        'type',
-        'value',
-    ];
-
-    protected $casts = [
-        'type' => ProductType::class
+        'content',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -27,8 +19,13 @@ class Product extends Model
         return $date->format('H:i d-m-Y');
     }
 
-    public function comments()
+    public function likes()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Like::class);
+    }
+
+    protected function getLikesAttribute()
+    {
+        return $this->likes()->count();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Modules\Auth\Domain\Exceptions\LoginException;
 use App\Modules\Product\Domain\Exceptions\AnyStoreException;
+use App\Modules\Product\Domain\Exceptions\CommentException;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -97,6 +98,7 @@ class Handler extends ExceptionHandler
                 break;
 
             case $exception instanceof AnyStoreException:
+            case $exception instanceof CommentException:
                 $params['message'] = $exception->getMessage();
                 $statusCode = Response::HTTP_OK;
                 break;

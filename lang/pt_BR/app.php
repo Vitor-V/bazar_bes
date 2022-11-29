@@ -23,6 +23,18 @@ return [
         ]
     ],
 
+    'customer' => [
+        'store' => [
+            'success' => 'Cliente registrado com sucesso.'
+        ],
+        'update' => [
+            'success' => 'Cliente atualizado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Cliente removido com sucesso.',
+        ]
+    ],
+
     'store' => [
         'store' => [
             'success' => 'Loja cadastrada com sucesso.'
@@ -44,6 +56,27 @@ return [
         ],
         'destroy' => [
             'success' => 'Produto removido com sucesso.',
+        ]
+    ],
+
+    'comment' => [
+        'store' => [
+            'success' => 'Comentário postado com sucesso.'
+        ],
+        'update' => [
+            'success' => 'Comentário atualizado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Comentário removido com sucesso.',
+        ]
+    ],
+
+    'like' => [
+        'store' => [
+            'success' => 'Like adicionado com sucesso.'
+        ],
+        'destroy' => [
+            'success' => 'Like removido com sucesso.',
         ]
     ],
 
